@@ -6,6 +6,9 @@
 
 객체 지향 언어(Object-Oriented-Language)이다. 하지만 Pure한 Object-Oriented Language가 아니다.
 
+❓소스 코드를 작성할 때  사용하는 자바 언어는 플랫폼에 독립적이다?
+→ 자바는 어디선가 컴파일 했으면, OS를 옮겨가도 컴파일 할 필요가 없다. “컴파일 과정 자체가 동일하기 보단 컴파일 한 그 결과물이 동일하게 유지된다” (백기선)
+
 ## JAVA 란?
 
 순수 객체 지향 언어의 특징
@@ -62,6 +65,8 @@
 ### JVM Architechure
 
 <img width="362" alt="4" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/7b169fab-e00c-40bc-b5da-9db0af0dbafd">
+
+📌Heap, Method 영역은 여러 스레드가 공유하는 영역이다.  반면 Stack의 경우 스레드마다 call stack 영역이 있다.
 
 ### Class Loaders
 
@@ -161,6 +166,7 @@ Java는 Interpret, Compile 중 무슨 방식일까?
     - Java SE platform의 모든 API/클래스 로딩
 - 시스템 클래스 로더(System Class Loader)
     - Java 앱 레벨의 클래스 로딩
+    - 주로 사용자가 작성한 class 로딩 
 
 ## Class Loaders 원칙
 
@@ -193,6 +199,12 @@ Java는 Interpret, Compile 중 무슨 방식일까?
     - 클래스 로딩될 때 Run-Time constant Pool도 같이 생성
     - 클래스 로더에 의해 생성된 객체가 참조하는 클래스를 로딩할 때도 같은 메커니즘
 3. 상위 클래스 또한 해당 클래스를 찾지 못한다면 하위 클래스가 찾아서 로딩
+
+📌 한 시스템에서 클래스는 FQCN과 자신을 로드한 클래스로더, 두가지 정보로 식별된다.
+
+FQCN(Fully Qualified Class Name): 클래스가 속한 패키지명을 모두 포함한 이름
+
+ex) java.lang.String
 
 ### ClassNotFoundException & NoClassDefFoundError
 
@@ -335,6 +347,9 @@ JDK 9 버전부터 코드 캐시를 3개의 세그먼트로 분리
 ## AOT(Ahead of Time) 컴파일러
 
 - Java 바이트코드를 앱 ‘실행 전’ 모두 한 번에 컴파일 해두는 방식
+  <aside>
+💡 AOT의 목표는 프로그램을 실행할 플랫폼과 프로세서 아키텍처에 딱 맞는 실행 코드를 얻는 것
+</aside>
 - Java 바이트코드(.class 파일)를 AOT 컴파일러(joatc) 통해 컴파일 하는 방식
 - 해당 기능 수행하는 jaotc가 JDK17에서 제거됨.(Graal VM 추가시 이용 가능)
 
@@ -342,7 +357,12 @@ JDK 9 버전부터 코드 캐시를 3개의 세그먼트로 분리
 
 <img width="493" alt="9" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/42078f50-3222-4055-bbe2-b3a0553877a6">
 
-- ‘Hot Method’를 추적하여 컴파일**(Profile-Guided Optimization)**
+- ‘Hot Method’를 추적하여 컴파일(Profile-Guided Optimization)
+- <aside>
+💡 프로그램의 런타임 실행 정보를 수집해, 자주 쓰이는 부분, 어느 부분을 최적화 해야할 지 프로파일을 만들어 결정을 내린다. 이를 PGO(Profile-Guided-Optimization) 이라고 한다.
+</aside>
+
+- 특정 메서드가 임계점을 넘으면 프로파일러가 특정 코드 섹션을 컴파일/최적화한다.
 - C1, C2 컴파일러 모드로 구성
 - C1
     - 런타임에 바이트코드를 기계어로 컴파일
