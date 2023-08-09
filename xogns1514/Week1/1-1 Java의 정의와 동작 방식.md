@@ -29,7 +29,7 @@
 
 ## Java 아키텍처
 
-![스크린샷 2023-08-08 오후 3.06.15.png](./img/1.png)
+<img width="371" alt="1" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/ada33dcd-8f09-400f-b160-37b7204b6b7d">
 
 ### Java 플랫 폼
 
@@ -37,7 +37,7 @@
 
 ### JDK(Java Development Tools)
 
-![스크린샷 2023-08-08 오후 3.09.24.png](./img/2.png)
+<img width="281" alt="2" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/e707ccc1-a98d-438e-96f5-707ef4b68491">
 
 - 자바 개발 킷(JRE + Development Tools)
 - JDK 11 이후 JRE 를 포함
@@ -46,7 +46,7 @@
 
 ### JVM(Java Virtual Machine)
 
-![스크린샷 2023-08-08 오후 3.09.39.png](./img/3.png)
+<img width="362" alt="3" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/c3644498-8cd9-40b5-a875-e25cdb2f1e90">
 
 - 자바 가상 머신(프로그램 작동)
 - Java 바이트코드를 기계어로 변환하고 실행
@@ -61,7 +61,7 @@
 
 ### JVM Architechure
 
-![스크린샷 2023-08-08 오후 3.17.32.png](./img/4.png)
+<img width="362" alt="4" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/7b169fab-e00c-40bc-b5da-9db0af0dbafd">
 
 ### Class Loaders
 
@@ -144,9 +144,9 @@ Java는 Interpret, Compile 중 무슨 방식일까?
 
 # 2. 클래스 로더와 클래스 로딩
 
-![Untitled](./img/5.png)
+<img width="376" alt="5" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/1a1d2e4a-580b-4d03-98af-f2df1b712424">
 
-![스크린샷 2023-08-08 오후 3.59.24.png](./img/6.png)
+<img width="600" alt="6" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/83bd9570-76a1-4729-96ff-b0bf9d5e1677">
 
 ## Class Loaders
 
@@ -292,14 +292,14 @@ Initialization - Procedure
 
 ## Java 바이트코드
 
-![스크린샷 2023-08-08 오후 4.43.42.png](./img/7.png)
+<img width="622" alt="7" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/0fda4ddf-2cc8-4d03-8bfd-c3adc348aafc">
 
 - Java 컴파일러가 소스 코드를 통해 생성한 JVM이 인식할 수 있는 명령어 집합
 - Compiler는 JVM의 요소가 아닌 JDK의 일부
 
 ### Invokedynamic
 
-![스크린샷 2023-08-08 오후 4.51.47.png](./img/8.png)
+<img width="779" alt="8" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/e8d185ed-e2d0-421d-abae-1672db578a35">
 
 - 런타임에 동적으로 호출할 메서드를 결정하기 위해 사용
     - lambda, Record 클래스, String concat 기능 등에 활용됨
@@ -340,7 +340,7 @@ JDK 9 버전부터 코드 캐시를 3개의 세그먼트로 분리
 
 ## JIT(Just-In-Time) 컴파일
 
-![스크린샷 2023-08-08 오후 4.59.43.png](./img/9.png)
+<img width="493" alt="9" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/42078f50-3222-4055-bbe2-b3a0553877a6">
 
 - ‘Hot Method’를 추적하여 컴파일**(Profile-Guided Optimization)**
 - C1, C2 컴파일러 모드로 구성
