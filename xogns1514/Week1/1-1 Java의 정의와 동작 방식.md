@@ -32,43 +32,63 @@
 
 ## Java 아키텍처
 
-<img width="371" alt="1" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/ada33dcd-8f09-400f-b160-37b7204b6b7d">
+<img width="693" alt="스크린샷 2023-08-10 오후 3 42 53" src="https://github.com/xogns1514/test/assets/66353672/b567eae8-4f27-46ef-aa4d-c403299420c9">
 
+<https://gngsn.tistory.com/252>
+
+JDK으로 개발하고 난 후, JVM의 메모리에 컴파일된 바이트 코드를 올리면, JRE를 통해 해당 로직을 실행하게 된다.
 ### Java 플랫 폼
 
 - Java 개발 및 실행 환경을 의미
 
 ### JDK(Java Development Tools)
-
+Java application과 Applet을 개발하기 위해 사용되는 소프트웨어 개발 환경
 <img width="281" alt="2" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/e707ccc1-a98d-438e-96f5-707ef4b68491">
 
 - 자바 개발 킷(JRE + Development Tools)
 - JDK 11 이후 JRE 를 포함
 - JRE(Java Runtime Environment)
     - 자바 실행 환경(JVM + Library)
+- 포함
+  - JRE
+  - Interpreter/loader
+  - Archiver
+  - Focumentation generator
+  - javac..
 
 ### JVM(Java Virtual Machine)
 
 <img width="362" alt="3" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/c3644498-8cd9-40b5-a875-e25cdb2f1e90">
 
-- 자바 가상 머신(프로그램 작동)
-- Java 바이트코드를 기계어로 변환하고 실행
+- Java 바이트 코드를 실행할 수 있는 런타임 환경을 제공하는 규격
 - 논리적인 개념, 여러 모듈의 결합체
 - Java 앱을 실행하는 주체
-- JVM 때문에 다양한 플랫폼 위에서 동작 가능
 - 기능
-    - 클래스 로딩
-    - GC 등 메모리 관리
-    - 스레드 관리
-    - 예외 처리
+  - 클래스 로딩
+  - GC 등 메모리 관리
+  - 스레드 관리
+  - 예외 처리
+<aside>
+💡 JVM은 설치하는 것이 아니라, JRE가 설치되면 코드가 배포되면서 특정 플랫폼에 대한 JVM을 생성한다. 이것이 바로 JVM이 다양한 하드웨어 및 소프트웨어 플랫폼에서 사용할 수 있는 이유다.
+</aside>
+
 
 ### JVM Architechure
 
 <img width="362" alt="4" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/7b169fab-e00c-40bc-b5da-9db0af0dbafd">
 
-📌Heap, Method 영역은 여러 스레드가 공유하는 영역이다.  반면 Stack의 경우 스레드마다 call stack 영역이 있다.
+📌 Heap, Method 영역은 여러 스레드가 공유하는 영역이다.  반면 Stack의 경우 스레드마다 call stack 영역이 있다.
 
-### Class Loaders
+### Class File
+Class 파일은 JVM에서 실행할 수 있는 Java byte code를 포함한 .class 확장자 파일이다. javac 명령어로 java 파일을 class 파일로 컴파일 할 수 있다.
+📌 **javac**: 프로그래머가 작성한 Java 코드를 Runtime시 Interpreter 혹은 JIT compiler가 읽을 수 있는 형태인 Java Virtual Machine Code로 변환하여 .class 확장자를 가진 파일로 저장한다.
+📌 **javap**: 프로그래머가 컴파일한 코드를 확인하고 JVM의 실행을 예상할 수 있는 파일을 생성한다. javap는 Oracle JDK가 제공하는 JVM code를 virtual machine assembly language로 불리는 형식으로 변환한다. 
+```java
+//Virtual machine assembly language 형식
+<index> <opcode> [<operand1> [<operand2>]][<comment>]
+```
+
+### 1. Class Loaders
 
 - Runtime에 Java 클래스/ 인터페이스의 바이트 코드를 동적으로 메모리에 로딩
 - 로딩 작업
@@ -76,7 +96,8 @@
     - Linking: 로드된 클래스의 verify, prepare, resolve 작업 수행
     - Initializing: 클래스/정적 변수 등 초기화
 
-### Runtime Data Areas
+### 2. Runtime Data Areas
+<img width="693" alt="스크린샷 2023-08-10 오후 4 14 44" src="https://github.com/xogns1514/test/assets/66353672/c6283435-0692-46a2-8366-0067ebeda50c">
 
 - 앱 실행을 위해 사용되는 JVM 메모리 영역
 - pc Register
@@ -85,12 +106,15 @@
     - 스레드 별로 생성되며 메서드 실행 관련 정보를 저장하는 영역
 - Heap
     - JVM 실행 시 생성되며 모든 객체 인스턴스/배열에 대한 메모리가 할당되는 영역
+- Stack
+  - 스레드마다 분리된 stack 영역을 갖는다. 호출되는 메소드 실행을 위해, 메소드를 담고 있다.
 - Method Area
     - JVM 실행 시 생성되며 클래스의 구조나 정보를 저장하는 영역
 - Native Method Stacks
     - 스레드 별로 생성되며 네이티브 코드 실행에 관련 정보를 저장하는 영역
 
-### Execution Engine
+### 3. Execution Engine
+<img width="529" alt="스크린샷 2023-08-10 오후 4 16 47" src="https://github.com/xogns1514/test/assets/66353672/b72b60b0-19d7-4e3c-8542-655c2660f995">
 
 - 메모리 영역에 있는 데이터를 가져와 해당하는 작업 수행
 - Interpreter
@@ -148,8 +172,12 @@ Java는 Interpret, Compile 중 무슨 방식일까?
 ---
 
 # 2. 클래스 로더와 클래스 로딩
+## Class Loader System
+<img width="693" alt="스크린샷 2023-08-10 오후 4 06 47" src="https://github.com/xogns1514/test/assets/66353672/137f3013-f59b-4833-b13b-193f42042048">
 
-<img width="376" alt="5" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/1a1d2e4a-580b-4d03-98af-f2df1b712424">
+ClassLoader를 통해 다른 디렉토리에 분산된 파일들을 메모리에 올리는 역할을 한다. 또한 이미지와 같은 연결된 리소스를 연결하는 역할을 한다.
+
+
 
 <img width="600" alt="6" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/83bd9570-76a1-4729-96ff-b0bf9d5e1677">
 
@@ -164,7 +192,8 @@ Java는 Interpret, Compile 중 무슨 방식일까?
     - 최상위 클래스 로더이자 네이티브 코드로 작성된 클래스 로더로 base 모듈 로딩
 - 플랫폼 클래스 로더(Platform Class Loader)
     - Java SE platform의 모든 API/클래스 로딩
-- 시스템 클래스 로더(System Class Loader)
+- 시스템 클래스 로더(System(application) Class Loader)
+    - Java SE 또는 JDK 모듈을 제외한 모듈내의 클래스에 대한 기본 로더
     - Java 앱 레벨의 클래스 로딩
     - 주로 사용자가 작성한 class 로딩 
 
@@ -188,7 +217,7 @@ Java는 Interpret, Compile 중 무슨 방식일까?
     → 두 클래스 로더는 해당 클래스에 대해 동일한 객체를 반환해야 함
     
 
-### Loading - 동작 방식
+## 1.Loading - 동작 방식
 
 1. 최하위 클래스 로더부터 클래스를 찾음
     - ‘java.lang.ClassLoader’의 생성자, 하위 클래스를 사용해서 새 클래스 로더의 상위 지정 가능
@@ -219,7 +248,7 @@ ex) java.lang.String
     - 올바른 클래스패스 설정 여부
     - 해당 클래스를 로딩하는 클래스 로더
 
-### Linking
+## 2.Linking
 
 로딩된 클래스를 실행하기 위해 결합하는 프로세스
 
@@ -231,13 +260,13 @@ ex) java.lang.String
     - 링킹 중 감지된 오류는 관련 클래스/인터페이스의 링킹이 직간접적으로 필요한 지점에서 발생해야 함
     - 심볼릭 레퍼런스는 실제 참조될 때까지 확인되지 않음
 
-### Linking - Verification
+### 2.1 Linking - Verification
 
 - Java Bytecode의 유효성을 검사하는 프로세스
 - 클래스/인터페이스 바이트코드가 유효하지 않은 경우 이 시점에서 VerifyError 에러가 발생해야 함
 - 검증 중에 LinkageError 에러가 발생하면 이후 검증 시에는 항상 동일한 에러로 실패햐아 함
 
-### Linking - Preparation
+### 2.2 Linking - Preparation
 
 - 클래스/인터페이스의 스태틱 필드를 생성, 필요한 메모리를 할당하며 기본값으로 초기화하는 프로세스
     - static int → 0, 객체 참조 → null로 초기화
@@ -248,7 +277,7 @@ ex) java.lang.String
 - 클래스/ 인터페이스가 로딩될 때 메서드 영역에 할당되는 자료구조
 - 일반 상수 풀의 데이터를 기반으로 생성되며 스태틱 상수과 심볼릭 레퍼런스 등을 포함
 
-### Linking - Resolution
+### 2.3 Linking - Resolution
 
 - 심볼릭 레퍼런스가 구체적인 값을 가리키도록 동적으로 결정하는 프로세스
     - JVM의 많은 명령들이 런타임 상수 풀의 심볼릭 레퍼런스에 의존
@@ -256,7 +285,7 @@ ex) java.lang.String
     - 해당 작업을 수행하는 동안 오류가 발생하지 않음
     - 후속 시도는 초기 시도와 동일한 결과를 만듦
 
-### Initialization
+### 3.Initialization
 
 - 클래스/ 인터페이스의 초기화 메서드 등을 실행하며 초기화
 - 이전에 Verification, Preparation, Resolution 작업이 모두 완료되어야 수행 가능
@@ -328,6 +357,7 @@ Initialization - Procedure
     - 메서드의 파라미터(타입, 순서)와 반환 타입을 문자열로 표현한 것
 
 ## Java 코드 캐시
+📌JIT compiled code는 코드 캐시에 저장된다.
 
 JVM이 Java 바이트코드를 컴파일한 네이티브 코드를 저장하는 메모리 영역
 
@@ -344,12 +374,20 @@ JDK 9 버전부터 코드 캐시를 3개의 세그먼트로 분리
 
 # 4. 바이트코드를 컴파일하는 AOT, JIT 컴파일러
 
+## Interpreter
+프로그램 실행 시작 시 Bytecode를 한 줄씩 읽어 기계가 이해할 수 있도록 변환한다. 
+❓ Interpreter 자체의 속도는 느리다
+   → '로드 속도'와 '실행 속도'는 매우 빠르다. 하지만 모든 코드를 한 줄씩 읽어 처리해야 하고, 동일한 코드 반복을 줄일 수 없기 때문이다.
+
 ## AOT(Ahead of Time) 컴파일러
 
 - Java 바이트코드를 앱 ‘실행 전’ 모두 한 번에 컴파일 해두는 방식
+- C와 같은 오래된 프로그래밍 언어의 코드가 정적으로 링크되고 컴파일 되는 구형 방식이다. 컴파일 결과로 얻어진 기계어는 플랫폼에 최적화되며, 매우 빠른 실행이 가능해진다. 
   <aside>
 💡 AOT의 목표는 프로그램을 실행할 플랫폼과 프로세서 아키텍처에 딱 맞는 실행 코드를 얻는 것
 </aside>
+
+- 실행코드는 어떤 플랫폼에서 실행될 지 모르기 때문에, AOT 컴파일은 자신이 사용 가능한 프로세서 기능에 대한 가장 보수적인 선택을 한다. 따라서 AOT 컴파일 한 바이너리는 CPU 기능을 최대한 활용하지 못해, 성능의 단점이 있다.
 - Java 바이트코드(.class 파일)를 AOT 컴파일러(joatc) 통해 컴파일 하는 방식
 - 해당 기능 수행하는 jaotc가 JDK17에서 제거됨.(Graal VM 추가시 이용 가능)
 
@@ -357,19 +395,41 @@ JDK 9 버전부터 코드 캐시를 3개의 세그먼트로 분리
 
 <img width="493" alt="9" src="https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/66353672/42078f50-3222-4055-bbe2-b3a0553877a6">
 
+JIT Compiler는 Interpreter의 주요 단점을 극복하기 위해 도입되었다. 
+
 - ‘Hot Method’를 추적하여 컴파일(Profile-Guided Optimization)
-- <aside>
-💡 프로그램의 런타임 실행 정보를 수집해, 자주 쓰이는 부분, 어느 부분을 최적화 해야할 지 프로파일을 만들어 결정을 내린다. 이를 PGO(Profile-Guided-Optimization) 이라고 한다.
+
+<aside>
+💡 프로그램의 런타임 실행 정보를 수집해, 자주 쓰이는 부분, 어느 부분을 최적화 해야할 지 프로파일을 만들어 결정을 내린다. 이를 PGO(Profile-Guided-Optimization)(프로파일 기반 최적화) 이라고 한다.
 </aside>
 
 - 특정 메서드가 임계점을 넘으면 프로파일러가 특정 코드 섹션을 컴파일/최적화한다.
-- C1, C2 컴파일러 모드로 구성
+JIT Compiler는 다음 네개의 컴포넌트를 갖는다
+1. Intermediate Code Generator: intermediate code를 생성
+2. Code Optimizer: 성능을 위한 intermediate code 최적화
+3. Targer Code Generator: intermediate code를 native machine code로 변경
+4. Profiler-hotspots: 반복적으로 실행되는 code를 탐색한다.
+   
+
+📌 자바는 compile 방식과 interpreter 방식을 모두 사용한다
+Q: 언제 interpreter가 실행되고, 언제 JIT Compiler가 실행될까?
+A: HotSpot Code의 여부에 따라 달라진다. application 성능은 자주 실행되는 일부 code가 얼마나 빨리 실행되느냐에 따라 좌우된다. 자주 실행되는 영역을 HotSpot이라고 한다.
+
+→ JIT compiler는 소스코드 전체를 확인한 후 중복된 부분을 미리 기계어로 번역해 저장해 놓는다. 이후 interpreter 방식으로 번역하다가, 중복되는 부분을 만나면 이미 변환된 기계어 코드를 재사용한다. 따라서 속도 면에서 개선된 모습을 보여준다.
+
+
+
+
+
+C1, C2 컴파일러 모드로 구성
 - C1
     - 런타임에 바이트코드를 기계어로 컴파일
     - 빠른 시작과 견고한 최적화가 필요한 앱에서 사용됨
 - C2
     - 변환된 기계어를 분석하여 C1보다 오래 걸리지만 더욱 최적화된 네이티브 코드로 컴파일
     - 오랫동안 실행을 하는 서버 앱 용도
+
+
 
 ### AOT vs JIT
 
