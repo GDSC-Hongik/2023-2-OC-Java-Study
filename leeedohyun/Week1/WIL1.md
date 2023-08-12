@@ -53,6 +53,21 @@ inventory.sort(comparing(Apple::getWeight));
 - 메서드 참조(::): 이 메서드 값을 사용하라는 의미
 - 기존에 비해 문제 자체를 더 직접적으로 설명한다는 점이 자바 8의 장점이다.
 
+```java
+// 자바 8 이전의 코드
+File[] hiddenFiles = new File(".").listFiles(new FileFilter() {
+    public boolean accept(File file) {
+        return file.isHidden();
+    }
+})
+
+// 자바 8 람다 
+File[] hiddenFiles = new File(".").listFiles(file -> file.isHidden());
+
+// 자바 8 메서드 참조
+File[] hiddenFiles = new File(".").listFiles(File::isHidden());
+```
+
 ### 람다: 익명 함수
 ```java
 (int x) -> x + 1
@@ -61,9 +76,71 @@ inventory.sort(comparing(Apple::getWeight));
 x라는 인수로 호출하면 x + 1을 반환하는 동작을 수행하도록 코드를 구현할 수 있다. 이렇게 람다 문법을 통해서 메서드를 더 간결하게 구현할 수 있다.
 
 ## 코드 넘겨주기: 예제
-- 필터: 특정 항목을 선택해서 반환하는 동작
+모든 녹색 사과를 선택해서 리스트로 반환하는 프로그램을 구현해보자.
 
-> predicate란 수학에서는 인수로 값을 받아 true나 false를 반환하는 함수를 일컫는다.
+```java
+public static List<Apple> filterGreenApples(List<Apple> inventory) {
+  List<Apple> result = new ArrayList<>();
+  for(Apple apple : inventory) {
+    if(GREEN.equals(apple.getColor())) {
+      result.add(apple);
+    }
+  }
+  return result;
+}
+```
+
+갑자기 사과를 무게로 필터링하고 싶은 사람이 나타났다면 다음과 같이 구현할 수 있다.
+
+```java
+public static List<Apple> filterHeavyApples(List<Apple> inventory) {
+  List<Apple> result = new ArrayList<>();
+  for(Apple apple : inventory) {
+    if(apple.getWeight() > 150) {
+      result.add(apple);
+    }
+  }
+  return result;
+}
+```
+
+자바 8에서는 코드를 인수로 넘겨줄 수 있으므로 filter 메서드를 중복으로 구현할 필요가 없다. 그렇다면 앞의 코드를 자바 8에 맞게 고쳐보자.
+
+```java
+public static boolean isGreenApple(Apple apple) {
+  return GREEN.equals(apple.getColor());
+}
+
+public static boolean isHeavyApple(Apple apple) {
+  return apple.getWeight() > 150;
+}
+
+public interface Predicate<T> {
+  boolean test(T t);
+}
+
+static List<Apple> filterApples(List<Apple> inventory, Predicate<Apple> p {
+  List<Apple> result = new ArrayList<>();
+  for(Apple apple : inventory) {
+    if(p.test(apple)) {
+      result.add(apple);
+    }
+  }
+  return result;
+}
+
+filterApples(inventory, Apple:isGreenApple);
+filterApples(inventory, Apple:isHeavyApple);
+```
+
+```java
+@FunctionalInterface
+public interface Predicate<T> {
+    boolean test(T t);
+}
+```
+
+> predicate란 수학에서는 인수로 값을 받아 true나 false를 반환하는 함수를 일컫는다. 함수형 프로그래밍에서 @FunctionalInteface 어노테이션은 함수형 인터페이스를 나타내기 때문에 중요하다. 그리고 test 메서드는 주어진 입력 값을 평가하여 논리적인 조건을 검사하고 true 혹은 false로 반환한다.
 
 ## 메서드 전달에서 람다로
 메서드를 값을 전달하는 것은 유용한 기능이지만 한두 번만 사용할 메서드를 매번 정의하는 것은 귀찮은 일이다. 
