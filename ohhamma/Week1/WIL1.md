@@ -84,13 +84,15 @@
 
 ### 1.3.1 메서드와 람다를 일급 시민으로
 
-- 메서드 참조
-
 ```java
-File[] hiddenFiles = new File(".").listFiles(File::isHidden);
+	
+new File(".").listFiles(file->file.isHidden());    // 람다 (익명함수)
+new File(".").listFiles(File::isHidden);           // 메서드 참조
 ```
 
 - 자바8에서는 메서드가 일급값
+- 메서드 참조를 만들어 전달 가능해짐
+- 람다함수도 값으로 취급
 
 ### 람다 : 익명 함수
 
