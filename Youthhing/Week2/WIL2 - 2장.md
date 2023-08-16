@@ -233,6 +233,7 @@ inventory.sort((Apple a1 , Apple a2)-> a1.getWeight().compareTo(a2.getWeight()))
 **Runnable**
 
 **Callable등**
+
 위 두가지 인터페이스 또한 람다로 구현이 가능하다.
 ---
 
