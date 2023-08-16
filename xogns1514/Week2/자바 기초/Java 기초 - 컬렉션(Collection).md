@@ -74,6 +74,17 @@ System.out.println(iterator.next());
 | poll() | E | 첫번째 요소를 리턴 후 삭제 |
 | subList(int f, int t) | List | f~t 사이의 객체를 List로 변환하여 리턴 |
 
+###❓ArrayList vs LinkedList
+데이터 `접근`이 빈번한 경우
+- ArrayList의 성능이 더 좋다
+  -   ArrayList는 index 기반의 자료구조이다. 따라서 O(1)의 시간 복잡도를 갖음.
+  -   반면 LinkedList는 최악의 경우 O(N)의 성능을 갖는다.
+
+데이터 `추가/ 삭제`가 빈번한 경우
+- LikedList의 성능이 더 좋다
+  - 데이터가 가리키고 있는 주소값만 변경해주면 된다.
+  - 반면 ArrayList는 중간에 데이터를 삽입하게 되면, 중간에 빈 공간을 만들기 위해 원소들의 이동이 필요하다. 따라서 비효율적이다
+
 ## Vector<E>
 
 - 기본적으로 `ArrayList와 동일한 자료 구조`를 가지고 있음
