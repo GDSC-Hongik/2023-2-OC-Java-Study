@@ -82,6 +82,7 @@ int index = X.hashCode() % M;
 Java HashMap에서는 Serperate Chaining 방식을 사용한다.
 
 - Open Addresing은 데이터 삭제시 효율적이기 어렵다
+  → 삭제가 빈번하게 발생을 하면, 실제 데이터가 없더라도 검색을 할때, Dummy Node에 의해서, 많은 Bucket을 연속적으로 검색함
 - HashMap에서 remove() 메서드는 자주 호출될 수 있다
 - 키-값 개수가 일정 개수를 넘어가면, 일반적으로 Open Addressing이 더 느리다
 - Seperate Chaining 방식에서 해시 충돌이 잘 발생하지 않도록 조정만 하면 Worst Case의 일은 줄일 수 있다
@@ -127,6 +128,7 @@ public V put(K key, V value) { if (table == EMPTY_TABLE) { inflateTable(threshol
 - Java 8에서 get() 메서드 호출에 대한 기댓값: E(Log(N/M))
 
  Java 8에서는 데이터의 개수가 많아 지면, `링크드 리스트 대신 트리`를 사용하기 때문이다.
+ → 레드-블랙 트리를 이용한다.
 
 - Java 8 HashMap에서는 하나의 해시 버킷에 8개의 키-값 쌍이 모이면 링크드 리스트를 트리로 변경한다.
 - 해당 버킷 데이터를 삭제하여 개수가 6개에 이르면 다시 링크드 리스트로 변경한다.
