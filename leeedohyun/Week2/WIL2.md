@@ -116,7 +116,7 @@ List<Apple> redApples = filterApples(inventory, new ApplePredicate() {
     public boolean test(Apple apple) {
         return RED.equals(apple.getColor());
     }
-})
+});
 }
 ```
 
