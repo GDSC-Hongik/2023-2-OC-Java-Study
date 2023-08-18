@@ -25,6 +25,8 @@ public static List<Apple> filterGreenApples(List<Apple> inventory) {
 }
 ```
 
+> enum을 비교할 때는 `==` 비교가 가능하다. `==` 비교는 런타임에 NPE(NullPointerException)이 발생시키지 않는다. 또한, 컴파일 타임에 타입을 비교하여 타입의 미스매치를 잡아준다.
+
 이렇게 녹색 사과만을 선택하는 코드를 구현할 수 있다. 하지만 녹색 사과가 아니라 빨간 사과도 필터링하고 싶다면 어떻게 해야 할까?
 
 > 거의 비슷한 코드가 반복 존재한다면 그 코드를 추상화한다.
