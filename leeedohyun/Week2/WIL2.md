@@ -262,6 +262,15 @@ Comparator<Apple> byWeight =
 - (parameters) -> expression
 - (parameters) -> { statements; }
 
+### Expression & Statement 
+식(Expresision)은 적어도 하나의 값을 산출하는 것을 의미한다. **식은 반드시 컴파일러에 의해 값으로 평가될 수 있어야 한다.** 함수 호출, 객체 할당, 산술식, null value, 변수 접근, instanceof 연산자 그리고 익명 클래스와 같이 값을 산출할 수 있는 것은 식에 포함된다.
+
+문장(Statement)은 프로그램 내에서 하나의 동작을 기술하는 것을 의미한다. 지바에서 문장은 블럭 안에 위치하여 메서드와 클래스를 구성한다.
+
+![image](https://github.com/GDSC-Hongik/2023-2-OC-Java-Study/assets/116694226/e1fa7735-2274-4926-9eda-c1a07fd90639)
+
+Statement는 흔히 한 개 이상의 expression과 프로그래밍 키워드를 포함하는 경우가 많다. 그렇기에 expression은 statement의 부분 집합이다.
+
 ## 어디에, 어떻게 람다를 사용할까?
 ### 함수형 인터페이스
 저번 스터디 과제에서 얕게 공부했던 Predicate가 함수형 인터페이스이다. 함수형 인터페이스는 하나의 추상 메서드를 지정하는 인터페이스라고 이해하면 된다. 함수형 인터페이스에는 Comparator, Runnable 등이 있다. 그렇다면 함수형 인터페이스는 다른 메서드들을 가질 수는 없을까? 아니다. 가질 수 있다. 다만, 디폴트 메서드를 포함할 수 있는데, 디폴트 메서드가 몇 개인지는 상관이 없고 **추상 메서드가 하나이기만 하면** 함수형 인터페이스라고 할 수 있다.
