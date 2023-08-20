@@ -20,7 +20,7 @@
 
 **녹색사과를 핕터링**
 
-```
+```Java
   public static List<Apple> filterGreenApples(List<Apple> inventory) {
     List<Apple> result = new ArrayList<>();
     for (Apple apple : inventory) {
@@ -33,6 +33,32 @@
 ```
 
 농부의 요구사항에 맞게 '녹색'사과로 사과를 필터링하는 코드를 작성했다. 이때 요구사항이 변해 빨간사과로 필터링을 원한다고 한다. 색에 대한 요구사항이 변했다. 따라서, 색을 기준으로 파라미터화해서 소비자가 색에 맞는 사과를 필터링할 수 있게 코드를 짰다.
+
+### **Enum의 == 비교**
+Enum Type을 비교할때는 equals외에도 ==을 통해 비교를 할 수 있다. equals와 ==의 차이를 알아보자.
+
+**equals()를 사용할때**
+```Java
+if (GREEN.equals(apple.getColor())) 
+
+if(apple.getColor().equals(GREEN))//NPE 발생 가능!
+```
+equals를 사용하는 두 코드를 보자. GREEN과 apple.getColor()를 비교하는데 순서의 차이가 있다. 
+일반적으론 윗줄의 코드를 사용하는데 그 이유는 아래의 경우에 apple.getColor()가 NULL을 반환한다면 NullPointerException이 발생한다. Runtime에서 에러가 발생하는 것이다.
+반대로, 윗줄의 코드의 경우, apple.getColor()가 null이라면? false를 반환한다. 비교하고 싶은 로직은 동일하나 순서의 차이에 의해 하나는 NPE가 하나는 비교가 가능한 것이다. 숙련된 프로그래머라면 이를 구분하여 잘 사용하지만 실수가 발생할 여지가 있다.
+
+**==비교를 사용할떄**
+```Java
+if (apple.getColor()==Color.GREEN) 
+```
+반대로 == 비교를 할 경우엔 NPE가 발생할 걱정이 없다. 
+그 외에도 추가적인 장점이 있는데 Color와 유사한 Colors.GREY라는 클래스가 있다고 가정해보자. Apple Color는 Color(s 없음!)의 속성을 갖는다.
+
+이때 아래와 같은 코드를 작성했다고 생각해보자.
+```Java
+if (apple.getColor()==Colors.GREY) 
+```
+다른 ENUM타입과 비교를 하는중인데 이렇게 비교를 할 경우 Compile 단계에서 타입 미스매치 에러를 발생해 컴파일단에서 에러를 확인할 수 있다는 장점이 있다.
 
 **빨간 사과를 필터링 -> 색을 파라미터화**
 
@@ -253,6 +279,9 @@ inventory.sort((Apple a1 , Apple a2)-> a1.getWeight().compareTo(a2.getWeight()))
 ( 람다 파라미터 ) -> -=~~~~람다 바디~~~~;
 ```
 
+화살표 왼쪽에는 람다의 파라미터가 들어간다. Type은 명시하지 않아도 괜찮다. 
+화살표 오른쪽에는 표현식, 실행문의 동작이 들어간다. 해당 파라미터와 반환 타입은 함수 디스크립터, 람다 메서드 시그니쳐에 따라 결정된다.
+
 여러가지 유효한 람다 표현식의 예가 있으니 읽으며 익숙해져야겠다.
 
 ```java
@@ -304,6 +333,19 @@ public interface SmartAdder extends Adder{
 ```
 
 이렇게 추상 메서드가 한 개 이상이라면 "Multiple nonoverriding abstract methods found in interface Foo"라는 에러가 발생한다.
+
+추상 메서드를 하나로 제한하는 어노테이션이 @FunctionalInterface라는 것을 알았다. 그렇다면 아래의 경우는 어떨까?
+```java
+@FunctionalInterface
+public interface FunctionInterfaceTest {
+
+	boolean test(String s);
+
+	String toString();
+}
+```
+이 경우엔 추상 메서드가 두 개인것 처럼 보인다. 그러나, 해당 함수형 인터페이스는 컴파일이 가능하다. 그 이유는 다음과 같은데 ```String toString()```은 해당 인터페이스를 구현하는 구현체에서 구현하는 것이 아니다. java.lang.String에 구현이 되어있어 해당 인터페이스에서 구현해야하는 '추상 메서드'가 아니다. 따라서 해당 코드는 정상적으로 컴파일 된다.
+
 
 ### **함수 디스크립터**
 
