@@ -383,7 +383,7 @@ s.forEach(System.out::println);
 컬렉션 인터페이스를 사용하려면 외부 반복을 통해서 사용자가 직접 요소를 반복해야 한다. 반면 스트림은 내부 반복을 사용한다. 함수에 어떤 작업을 할 지만 지정하면 알아서 처리해준다.
 
 ```java
-List<String> names = new ArrayList<>();
+List<Dish> names = new ArrayList<>();
 for (Dish dish : menu) {
     name.add(dish.getName());
 }
@@ -392,7 +392,7 @@ for (Dish dish : menu) {
 우리는 스트림을 통해서 외부 반복하는 코드를 내부 반복을 하도록 변경할 수 있다.
 
 ```java
-List<String> names = menu.stream()
+List<Dish> names = menu.stream()
         .map(Dish::getName)
         .collect(toList());
 ```
