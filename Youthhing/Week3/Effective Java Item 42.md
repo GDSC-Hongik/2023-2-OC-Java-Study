@@ -33,3 +33,31 @@ words.sort(comparingInt(String::length));
 람다는 함수형 인터페이스에서만 쓰인다. 추상 클래스의 인스턴스를 만들때는 람다를 사용할 수 없다. 또한, 함수형 인터페이스가 아닌 추상 메서드가 여러개인 인터페이스의 인스턴스를 만들때에도 익명 클래스가 사용된다. 또한 람다는 자신을 참조할 수 없어 람다 내부에서 this를 써도 해당 람다가 아닌 람다 외부의 인스턴스를 가리키지만 익명 클래스의 this는 자신을 가르쳐 자기 자신을 참조해야하는 경우에도 익명 클래스를 쓸 수 있다.
 
 또한, 람다와 익명 클래스 모두 직렬화하는 일은 삼가하자!
+
+
+### **직렬화란?**
+앞에서 람다를 직렬화하는 일을 삼가하자 했는데 직렬화란 무엇일까?
+직렬화란, JVM의 Heap, Stack등 휘발성 메모리에 있는 객체를 Stream of Bytes로 변환해 다른 파일이나, DB와 같은 외부 저장소에 저장이 가능하게 하는 과정을 의미한다.
+
+직렬화는 자바의 고유 기술로, 자바 시스템 개발에선 최적화 되어 있어 다른 여러 타입과 데이터를 매칭시키는 별도의 작업이 없이 바로 외부에 내보낼 수 있다는 장점이 있다.
+
+**그럼 람다 직렬화는 어떻게 하나요?**
+
+람다와 익명클래스는 인스턴스 메서드처럼 정적인 형태를 갖지 않아 바로 직렬화가 불가능하다. 직렬화를 해야하는 경우엔 `private static nested class`를 사용해야한다. 인터페이스를 클래스 내부에 생성하고 인터페이스를 구현하는 클래스를 생성해 다른 외부 클래스에선 직접적인 접근을 막는 객체를 정적 클래스를 생성하고 람다를 직렬화할 수 있다.
+
+아래 코드 같이 예시를 들 수 있다.
+```Java
+public class LambdaSerializable {
+    public static void main(String[] args) {
+        LambdaFunction<Integer> function = x -> x>150;
+        System.out.println(function.test(200));
+        System.out.println(function.test(100));
+    }
+
+
+    private static interface LambdaFunction<T> extends Serializable {
+        boolean test(T o);
+    }
+
+}
+```

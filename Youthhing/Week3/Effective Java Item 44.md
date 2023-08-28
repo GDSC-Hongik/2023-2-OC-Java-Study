@@ -38,6 +38,99 @@ Consumer<T>: void accept(T t)
 
 이렇게 새로 작성을 할때는 이가 인터페이스임을 명심하고 설계해야한다.
 
+### **Comparator와 Comparable의 차이**
+
+둘 모두 객체를 비교할 수 있게 해주는 인터페이스라는 점에서 공통점을 갖지만 둘의 차이는 무엇일까?
+
+
+**Comparable**
+
+Comparable의 세부 구현을 보면 해당 추상메서드는 `public int compareTo(T o1)`으로 매개변수를 하나만 받는데 자기 자신과 매개변수로 오는 객체를 비교한다. 구현해야할 메서드는 하나이지만, `@FunctionalInterface`라는 어노테이션이 붙어있지 않은데 이는 Comparable이 구현할 compareTo가 자기자신 this와 파라미터를 비교하는데 람다 표현식 내부에서 `this`를 사용하면 람다를 호출하는 외부객체의 값이 전달되어 원하는 로직대로 비교가 불가능하기 때문이다.
+```Java
+public class TestComparable {
+    public static void main(String[] args) {
+        Student youth = new Student("youth",3);
+        Student more = new Student("more",5);
+        Student kim = new Student("Kim", 1);
+        Student kim1 = new Student("kim", 11);
+
+        List<Student> students = new ArrayList<>();
+        students.add(youth);
+        students.add(more);
+        students.add(kim1);
+        students.add(kim);
+
+        students.sort(Student::compareTo);
+
+        for (Student s : students) {
+            System.out.println(s.getNumber()+" "+s.getName());
+        }
+
+    }
+
+    static class Student implements Comparable<Student> {
+        private String name;
+        private int number;
+
+        @Override
+        public int compareTo(Student o) {
+            if(this.name.equals(o.name)){
+                return this.number - o.number;
+            }
+            else{
+                return this.name.compareTo(o.name);
+            }
+        }
+        //생성자 getter, setter 생략
+    }
+
+}
+```
+
+
+**Comparator**
+
+ `int compare(T o1, T o2)`를 추상메서드로 가지고 있어 매개변수를 두 개 받아서 두 객체를 비교한 값을 전달한다. 
+
+ ```java
+public class TestComparator {
+    public static void main(String[] args) {
+        Student youth = new Student("youth",3);
+        Student more = new Student("more",5);
+        Student kim = new Student("Kim", 1);
+        Student kim1 = new Student("kim", 11);
+
+        List<Student> students = new ArrayList<>();
+        students.add(youth);
+        students.add(more);
+        students.add(kim1);
+        students.add(kim);
+
+        for (Student s: students) {
+            System.out.println(s.getName()+" "+s.getNumber());
+        }
+
+        students.sort((s1,s2)->s1.getNumber()-s2.getNumber());
+
+        for (Student s: students) {
+            System.out.println(s.getName()+" "+s.getNumber());
+        }
+
+    }
+
+
+    static class Student {
+        private String name;
+        private int number;
+        
+        //생성자, getter, setter 생략
+    }
+}
+
+ ```
+
+
+
 **@FunctionalInterface를 사용하는 이유**
 
 1. 해당 클래스의 코드를 읽을때 람다용으로 작성되었음을 명시함
