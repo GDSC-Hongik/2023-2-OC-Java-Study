@@ -7,14 +7,12 @@ public class Problem03 {
     public static void main(String[] args) {
         List<String> words = Arrays.asList("Modern", "In", "Java", "Action");
 
-        List<String> upperCase = words.stream()
+        words.stream()
                 .map(s -> s.toUpperCase())
-                .collect(Collectors.toList());
-        System.out.println("words = " + upperCase);
+                .forEach(System.out::println);
 
-        List<String> lowerCase = words.stream()
+        words.stream()
                 .map(s -> s.toLowerCase())
-                .collect(Collectors.toList());
-        System.out.println("words = " + lowerCase);
+                .forEach(System.out::println);
     }
 }
