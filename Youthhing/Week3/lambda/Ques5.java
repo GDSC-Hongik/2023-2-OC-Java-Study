@@ -9,8 +9,7 @@ public class Ques5 {
     public static void main(String[] args) {
         List<String> words = Arrays.asList("Ya","Nol","Ja","Ga","Go","Sip","Da");
 
-        Collections.sort(words,(s1, s2)->s1.compareTo(s2));
-
+        words.sort(String::compareTo);
         System.out.println(words);
     }
 }

@@ -10,12 +10,10 @@ public class Ques11 {
         List<Integer> list = Arrays.asList(1,2,3,4,5);
 
         Integer max = list.stream()
-                .max((o1, o2) -> o1.compareTo(o2))
-                .orElse(9999999);
-
+                .reduce(0,Integer::max);
         Integer min = list.stream()
-                .min((o1, o2) -> o1.compareTo(o2))
-                .orElse(-99999999);
+                        .reduce(0,Integer::min);
+
         System.out.println("max = " + max);
         System.out.println("min = " + min);
     }

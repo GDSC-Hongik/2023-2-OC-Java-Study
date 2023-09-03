@@ -8,7 +8,7 @@ public class Ques2 {
     public static void main(String[] args) {
         String emptyString = "";
         String nonEmpty ="Hi Java";
-        Predicate<String> isEmptyString = s -> s.isEmpty();
+        Predicate<String> isEmptyString = String::isEmpty;
         System.out.println("isEmptyString.test(emptyString) = " + isEmptyString.test(emptyString));
         System.out.println("isEmptyString.test(nonEmpty) = " + isEmptyString.test(nonEmpty));
     }
