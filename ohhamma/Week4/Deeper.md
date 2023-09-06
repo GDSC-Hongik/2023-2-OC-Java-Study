@@ -79,3 +79,115 @@ Set<String> set = new HashSet<>(List.of(array));
 - `Arrays.asList` `List.of` 둘다 크기 변경 불가능
 - 변경하려면 Collections 생성해서 요소들의 값 옮겨야함
 </aside>
+
+# Method Reference의 정확한 사용법에 대한 분석
+
+## Method Reference란?
+
+- 클래스 또는 객체에서 메서드 참조
+- 람다식을 더 간결하게 : 불필요한 매개변수 out
+
+```java
+// 람다식
+str -> str.length()
+// 메서드 참조
+String::length
+```
+
+- 이중 콜른(`::`)을 사용하여 클래스 이름과 메서드 이름 구분
+
+## Method Reference의 사용법
+
+- static method reference
+- instance method reference of a particular object
+- instance method reference of an arbitrary object of a particular type
+- constructor reference
+
+### Reference to a static method
+
+- `Class::staticMethod`
+- 정적 메서드 : 객체의 생성 없이 호출 가능
+    - 호출 형식 : `클래스이름.메서드이름(매개변수)`
+- 해당하는 `클래스`의 정적 메서드 참조
+
+```java
+@FunctionalInterface
+public interface IAdd {
+	int add(int x, int y);
+}
+
+public class MathUtils {
+	public static int AddElement(int x, int y) {
+		return x + y;
+	}
+}
+```
+
+```java
+// 람다식
+IAdd addLambda = (x, y) -> MathUtils.AddElement(x, y);
+// 메서드 참조
+IAdd addMethodRef = MathUtils::AddElement;
+```
+
+### Reference to an instance method of a particular object
+
+- `obj::instanceMethod`
+- 인스턴스 메서드 : 반드시 객체 생성해야만 호출 가능
+- 해당하는 `객체`의 인스턴스 메서드 참조
+
+```java
+public class MathUtils {
+	public int AddElement(int x, int y) {
+		return x + y;
+	}
+}
+```
+
+```java
+// 객체 생성
+MathUtils mu = new MathUtils;
+// 람다식
+IAdd addLambda = (x, y) -> mu.AddElement(x, y);
+// 메서드 참조
+IAdd addMethodRef = mu::AddElement;
+```
+
+### Reference to an instance method of an arbitrary object of a particular type
+
+- `ObjectType::instanceMethod`
+- 임의의 객체의 특정 `타입`에 대한 인스턴스 메서드 참조
+
+```java
+// 람다식
+(obj, args) -> obj.instanceMethod(args);
+// 메서드 참조
+ObjectType::instanceMethod
+```
+
+```java
+Arrays.sort(strArr, new Comparator<String>() {
+	@Override
+	public int compare(String s1, String s2) {
+		return s1.compareToIgnoreCase(s2);
+	}
+});
+
+// 람다식
+Arrays.sort(strArr, (s1, s2) -> s1.compareToIgnoreCase(s2));
+// 메소드 참조
+Arrays.sort(strArr, String::compareToIgnoreCase);
+```
+
+### Constructor method reference
+
+- `ClassName::new`
+- `생성자`도 참조 가능
+
+```java
+// 람다식
+constructor = (name, major) -> new Student(name, major);
+// 메소드 참조
+constructor = Student::new;
+constructor.apply("이름", "전공");
+```
