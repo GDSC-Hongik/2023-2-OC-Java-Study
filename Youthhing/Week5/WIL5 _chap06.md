@@ -27,7 +27,7 @@ for (Transaction transaction : transactions){
 
 컬렉터의 등장으로 위 코드는 아래와 같이 간결해졌다.
 
-```
+```java
 Map<Currency,List<Transaction>> transactionsByCurrencies =
 										transactions.stream().collect(groupingBy(Transaction::getCurrency));
 
@@ -61,7 +61,7 @@ Collectors에서 제공되는 메서드의 기능은 3가지로 구분된다.
 
 4장에서 등장한 Dish.menu 에서 칼로리가 가장 높은 요리를 찾을때, Collectors.maxBy, Collectors.minBy 를 활용할 수 있다.
 
-```
+```Java
 Comparator<Dish> dishComparator = Comparator.comparingInt(Dish::getCalories);
         Optional<Dish> mostCalorieDish = Dish.menu.stream()
                 .collect(maxBy(dishComparator));
@@ -70,7 +70,7 @@ Comparator<Dish> dishComparator = Comparator.comparingInt(Dish::getCalories);
 
 이 코드는 Java17 에선 아래와 같이 사용할 수 있다.
 
-```
+```java
 Comparator<Dish> dishComparator = Comparator.comparingInt(Dish::getCalories);
         Optional<Dish> mostCalorieDish = Dish.menu.stream()
                 .max(dishComparator);
@@ -83,7 +83,7 @@ Comparator<Dish> dishComparator = Comparator.comparingInt(Dish::getCalories);
 
 칼로리의 합을 구하는 요약 연산의 경우를 보자. 코드는 아래와 같다.
 
-```
+```java
 menu.stream().collect(summingInt(Dish::getCalories));
 
 ```
@@ -102,7 +102,7 @@ menu.stream().collect(summingInt(Dish::getCalories));
 
 컬렉터에 joining 팩토리 메서드를 이용하면 스트림의 각 객체에 toString 메서드를 적용해 추출한 모든 문자열을 하나의 문자열로 연결해서 반환할 수 있다.
 
-```
+```java
 String shortMenu = menu.stream().map(Dish::getName).collect(Collectors.joining());
         System.out.println("shortMenu = " + shortMenu);
 
@@ -112,7 +112,7 @@ String shortMenu = menu.stream().map(Dish::getName).collect(Collectors.joining()
 
 띄어쓰기는 메뉴 자체에 있던 띄어쓰기이다. 합쳐진 문자열을 구분할 수 없다는 문제가 있는데 구분할 수 있는 문자열을 아래와 같이 넣을 수 있다.
 
-```
+```java
 String shortMenu = menu.stream().map(Dish::getName).collect(Collectors.joining(", "));
 
 ```
@@ -133,14 +133,14 @@ reducing 연산은 인자의 개수가 한개인 경우, 파라미터가 3개인
 
 Collectors와 reducing을 아래와 같이 적절히 바꿔 활용할 수 있다.
 
-```
+```java
 String shortMenu = menu.stream().map(Dish::getName).collect(joining());
 
 ```
 
 위 예제 joining을 사용한 collect 코드를 reducing을 사용해 적절히 바꾸면 아래와 같다.
 
-```
+```java
 String shortMenu = menu.stream().map(Dish::getName)
 										.collect(reducing( (s1,s2) -> s1+s2)).get;String shortMenu = menu.stream()
 										.collect(reducing("",Dish::getName,(s1,s2) -> s1+s2));
@@ -154,7 +154,7 @@ String shortMenu = menu.stream().map(Dish::getName)
 
 menu를 Type 별로 묶기 위해선 아래와 같이 구현할 수 있다.
 
-```
+```java
 Map<Type, List<Dish>> dishesByType = menu.stream().collect(groupingBy(Dish::getType));
 
 ```
@@ -170,7 +170,7 @@ Map<Type, List<Dish>> dishesByType = menu.stream().collect(groupingBy(Dish::getT
 
 여기서는 분류함수로 메서드 참조를 이용했는데, 더 복잡한 분류 기준(가령, 400칼로리 이하를 diet라고 하자)이 존재한다면, 메서드 참조를 사용할 수 없다. 이 경우엔 아래와 같이 람다를 이용한 코드를 작성해야한다.
 
-```
+```java
 menu.stream().collect(
                 groupingBy(dish->{
                     if(dish.getCalories()<=400)return CaloricLevel.DIET;
@@ -191,7 +191,7 @@ menu.stream().collect(
 
 따라서, Collector 클래스의 정적 팩토리 메서드로 filtering 을 사용할 수 있다. filter와 같이 프레디케이트를 인자로 받고, groupingBy 의 두번째 인자로 전달될 수 있다.
 
-```
+```java
 Map<Type, List<Dish>> filteringAfter = menu.stream()
                 .collect(groupingBy(Dish::getType
                         , filtering(dish -> dish.getCalories() > 500, toList())));
