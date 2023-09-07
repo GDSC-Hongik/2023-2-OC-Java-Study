@@ -31,7 +31,7 @@ public class Quiz4 {
     public List<Transaction> quiz1() {
         return transactions.stream()
                 .filter(t -> t.getYear() == 2020)
-                .sorted(Comparator.comparing(t -> t.getValue()))
+                .sorted(Comparator.comparing(Transaction::getValue))
                 .collect(toList());
     }
 
@@ -46,9 +46,9 @@ public class Quiz4 {
     // 4.3 서울에서 근무하는 모든 거래자를 찾아서 이름순서대로 정렬하라.
     public List<Trader> quiz3() {
         return transactions.stream()
-                .filter(t -> "Seoul".equals(t.getTrader().getCity()))
-                .map(t -> t.getTrader())
-                .sorted(Comparator.comparing(t -> t.getName()))
+                .map(Transaction::getTrader)
+                .filter(trader -> "Seoul".equals(trader.getCity()))
+                .sorted(Comparator.comparing(Trader::getName))
                 .distinct()
                 .collect(toList());
     }
@@ -56,8 +56,8 @@ public class Quiz4 {
     // 4.4 모든 거래자의 이름을 구분자(",")로 구분하여 정렬하라.
     public String quiz4() {
         return transactions.stream()
-                .map(t -> t.getTrader())
-                .map(t -> t.getName())
+                .map(Transaction::getTrader)
+                .map(Trader::getName)
                 .distinct()
                 .sorted()
                 .collect(joining(","));
@@ -73,19 +73,19 @@ public class Quiz4 {
     public List<Integer> quiz6() {
         return transactions.stream()
                 .filter(t -> "Seoul".equals(t.getTrader().getCity()))
-                .map(t -> t.getValue())
+                .map(Transaction::getValue)
                 .collect(toList());
     }
 
     // 4.7 모든 거래 내역중에서 거래 금액의 최댓값과 최솟값을 구하라. 단, 최댓값은 reduce를 이용하고 최솟값은 stream의 min()을 이용하라.
     public Integer[] quiz7() {
         int max = transactions.stream()
-                .mapToInt(t -> t.getValue())
+                .mapToInt(Transaction::getValue)
                 .reduce(Integer::max)
                 .orElse(0);
 
         int min = transactions.stream()
-                .mapToInt(t -> t.getValue())
+                .mapToInt(Transaction::getValue)
                 .min()
                 .orElse(0);
 
