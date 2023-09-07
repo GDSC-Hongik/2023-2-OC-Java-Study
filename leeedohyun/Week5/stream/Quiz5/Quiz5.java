@@ -43,7 +43,7 @@ public class Quiz5 {
         return IntStream.rangeClosed(1, 6)
                 .boxed()
                 .flatMap(i -> IntStream.rangeClosed(1, 6).boxed().map(j -> new Integer[]{i, j}))
-                .filter(integerStream -> integerStream[0] + integerStream[1] == 6)
+                .filter(integers -> integers[0] + integers[1] == 6)
                 .collect(toList());
     }
 
