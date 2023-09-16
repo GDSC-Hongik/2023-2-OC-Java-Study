@@ -35,7 +35,6 @@ public class Quiz6 {
 
     // stuArr에서 불합격(150점 미만)한 학생의 수를 남자와 여자로 구별하여라. (Boolean, List)
     public Map<Boolean, List<Student>> quiz1() {
-
         return Arrays.stream(stuArr).filter(s -> s.getScore() < 150)
                 .collect(Collectors.partitioningBy(Student::isMale));
     }

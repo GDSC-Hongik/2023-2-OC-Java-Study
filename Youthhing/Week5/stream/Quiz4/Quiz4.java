@@ -48,7 +48,7 @@ public class Quiz4 {
     public List<Trader> quiz3() {
         return transactions.stream()
                 .map(Transaction::getTrader)
-                .filter(t->t.getCity().equals("Seoul"))
+                .filter(t->"Seoul".equals(t.getCity()))
                 .distinct()
                 .sorted(Comparator.comparing(Trader::getName))
                 .collect(Collectors.toList());
@@ -56,7 +56,6 @@ public class Quiz4 {
 
     // 4.4 모든 거래자의 이름을 구분자(",")로 구분하여 정렬하라.
     public String quiz4() {
-
         return transactions.stream()
                 .map(Transaction::getTrader)
                 .map(Trader::getName)
@@ -75,7 +74,6 @@ public class Quiz4 {
 
     // 4.6 서울에 거주하는 거래자의 모든 거래 금액을 구하라.
     public List<Integer> quiz6() {
-
         return transactions.stream()
                 .filter(t -> "Seoul".equals(t.getTrader().getCity()))
                 .map(Transaction::getValue)

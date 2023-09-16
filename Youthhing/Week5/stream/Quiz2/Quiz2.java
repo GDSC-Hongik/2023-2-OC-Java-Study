@@ -13,8 +13,6 @@ public class Quiz2 {
     // 2.1 List에 저장된 단어들의 접두사가 각각 몇개씩 있는지 Map<String, Integer>으로 변환하여라.
     // ex) ("T", 1), ("a", 2) ...
     public Map<String, Integer> quiz1() {
-
-
         return WORDS.stream()
                 .map(s -> s.substring(0, 1))
                 .collect(Collectors.toMap(
@@ -29,8 +27,7 @@ public class Quiz2 {
         return WORDS.stream()
                 .filter(s -> s.length() >= 2)
                 .map(s -> s.substring(0, 1).toUpperCase())
-                .reduce((x, y) -> x + " " + y)
-                .orElse("");
+                .collect(Collectors.joining(" "));
     }
 
 }

@@ -14,9 +14,7 @@ public class Quiz1 {
         readCsvLines().stream()
                 .map(line -> line[2].replaceAll("\\s", ""))
                 .mapToInt(line->line.length()-line.replace("좋아","").length())
-
                 .forEach(System.out::println);
-
     }
 
     // 1.1 각 취미를 선호하는 인원이 몇 명인지 계산하여라.
@@ -50,7 +48,6 @@ public class Quiz1 {
                 .map(line -> line[2].replaceAll("\\s", ""))
                 .mapToInt(line -> line.length() - line.replace("좋아", "").length())
                 .sum()/2;
-
     }
 
     private static List<String[]> readCsvLines() throws IOException {
