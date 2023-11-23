@@ -78,8 +78,7 @@ Set<String> set = new HashSet<>(List.of(array));
 
 - `Arrays.asList` `List.of` 둘다 크기 변경 불가능
 - 변경하려면 Collections 생성해서 요소들의 값 옮겨야함
-</aside>
-
+  
 # Method Reference의 정확한 사용법에 대한 분석
 
 ## Method Reference란?
